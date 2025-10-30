@@ -99,6 +99,14 @@ logs
 # AWS
 .aws/
 
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+*.tfvars
+*.tfvars.json
+
 # Distribution files
 .dist/
 

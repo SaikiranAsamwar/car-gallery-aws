@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: car-gallery-backend
+  namespace: car-gallery
+  labels:
+    app: car-gallery-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: car-gallery-backend
+  template:
+    metadata:
+      labels:
+        app: car-gallery-backend
+    spec:
+      containers:
+      - name: car-gallery-backend
+        image: your-ecr-registry/car-gallery-backend:latest
+        ports:
+        - containerPort: 4000
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: PORT
+          value: "4000"
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: car-gallery-secrets
+              key: db-host
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: car-gallery-secrets
+              key: db-user
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: car-gallery-secrets
+              key: db-pass
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: car-gallery-secrets
+              key: db-name
+        livenessProbe:
+          httpGet:
+            path: /api/types
+            port: 4000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/types
+            port: 4000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: car-gallery-backend-service
+  namespace: car-gallery
+spec:
+  selector:
+    app: car-gallery-backend
+  ports:
+    - protocol: TCP
+      port: 4000
+      targetPort: 4000
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: car-gallery-ingress
+  namespace: car-gallery
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /api/types
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+spec:
+  rules:
+  - host: car-gallery.your-domain.com
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: car-gallery-backend-service
+            port:
+              number: 4000
