@@ -1,0 +1,19 @@
+{
+  "name": "car-expo-backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "dev:mock": "node server-dev.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.21.2",
+    "mysql2": "^3.2.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

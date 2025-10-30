@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Car Expo — Showcase</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Car Expo</h1>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#types">Types</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <main id="app">
+    <section id="home" class="panel">
+      <h2>Welcome to Car Expo</h2>
+      <p>Explore car types, subtypes, detailed specs and gallery.</p>
+    </section>
+
+    <section id="types" class="panel">
+      <h2>Car Types</h2>
+      <div id="types-container" class="grid"></div>
+    </section>
+
+    <section id="gallery" class="panel">
+      <h2>Gallery</h2>
+      <div id="gallery-grid" class="grid"></div>
+    </section>
+
+    <section id="details" class="panel hidden">
+      <button id="back-btn">← Back</button>
+      <div id="details-content"></div>
+    </section>
+
+    <section id="about" class="panel">
+      <h2>About</h2>
+      <p>This exhibition showcases cars by type and subtype with full features.</p>
+    </section>
+  </main>
+
+  <footer>
+    <small>© Car Expo</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+CREATE DATABASE IF NOT EXISTS car_expo;
+USE car_expo;
+
+CREATE TABLE IF NOT EXISTS types (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  type VARCHAR(100) NOT NULL,
+  description TEXT
+);
+
+CREATE TABLE IF NOT EXISTS subtypes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  type_id INT NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  FOREIGN KEY (type_id) REFERENCES types(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS cars (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(200) NOT NULL,
+  type VARCHAR(100),
+  subtype VARCHAR(100),
+  short_desc VARCHAR(300),
+  description TEXT,
+  features TEXT, -- store JSON array: '["ABS","Sunroof"]'
+  image_url TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
